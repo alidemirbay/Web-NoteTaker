@@ -1,5 +1,10 @@
 const fs = require("fs")
 
+const db = require("../db/db.json")
+
+
+let id = db.length + 1
+
 module.exports = function (app) {
 
     app.get("/api/notes", function (req, res) {
@@ -10,6 +15,14 @@ module.exports = function (app) {
         });
     })
 
+    app.post("/api/notes", function (req, res) {
+        req.body.id = id++;
 
+        db.push(req.body)
+        fs.writeFile("./db/db.json", JSON.stringify(db), function (err) {
+            if (err) throw err
+        })
+        res.json(db)
+    })
 
 }
