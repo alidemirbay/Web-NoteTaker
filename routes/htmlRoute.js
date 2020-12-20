@@ -2,12 +2,12 @@
 const path = require('path');
 
 // exports the routes
-module.exports = function (app) {
+module.exports = (app) => {
     // In each of the below cases the user is shown an HTML page of content
-    app.get("/notes", function (req, res) {
+    app.get("/notes", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/notes.html"))
     });
-    app.get("*", function (req, res) {
+    app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "../public/index.html"));
     });
 }

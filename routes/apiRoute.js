@@ -6,10 +6,10 @@ const db = require("../db/db.json")
 // id variable for deleting note
 let id = db.length + 1
 
-module.exports = function (app) {
+module.exports = (app) => {
 
     // reads the database parse the content and send to the client
-    app.get("/api/notes", function (req, res) {
+    app.get("/api/notes", (req, res) => {
         fs.readFile("./db/db.json", (err, data) => {
             if (err) throw err;
             res.json(JSON.parse(data))
@@ -17,16 +17,17 @@ module.exports = function (app) {
     })
 
     // 
-    app.post("/api/notes", function (req, res) {
-        // add id to the note,push into array wite to file and send to client
+    app.post("/api/notes", 'utf8', (req, res) => {
+        // add id to the note,push into array write to file and send to client
         req.body.id = id++;
         db.push(req.body)
-        fs.writeFile("./db/db.json", JSON.stringify(db), function (err) {
+        fs.writeFile("./db/db.json", JSON.stringify(db), (err) => {
             if (err) throw err
         })
-        res.json(db)
+        res.json({ ok: true })
     })
-    app.delete("/api/notes/:id", function (req, res) {
+
+    app.delete("/api/notes/:id", (req, res) => {
         let getId = req.params.id
         //find the note with correct id and remove it from array
         // write to file and send to client
@@ -35,9 +36,9 @@ module.exports = function (app) {
                 db.splice(i, 1);
             }
         }
-        fs.writeFile("./db/db.json", JSON.stringify(db), function (err) {
+        fs.writeFile("./db/db.json", JSON.stringify(db), (err) => {
             if (err) throw err
         })
-        res.json(db)
+        res.json({ ok: true })
     })
 }
