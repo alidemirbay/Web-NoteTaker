@@ -17,7 +17,7 @@ module.exports = (app) => {
     })
 
     // 
-    app.post("/api/notes", 'utf8', (req, res) => {
+    app.post("/api/notes", (req, res) => {
         // add id to the note,push into array write to file and send to client
         req.body.id = id++;
         db.push(req.body)
